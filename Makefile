@@ -1,5 +1,5 @@
 build:
-	gcc src/*.c -o main
+	gcc src/*.c src/music/*.c -o main
 
 run:
 	./main
