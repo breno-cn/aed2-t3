@@ -5,11 +5,18 @@
 #define WORDS_LIMIT 1024
 #define WORD_SIZE 32
 
+typedef struct frequency_t {
+    char word[WORD_SIZE];
+    int count;
+} frequency_t;
+
 typedef struct word_count_t {
-    char word[WORDS_LIMIT][WORD_SIZE];
-    int count[WORDS_LIMIT];
+    frequency_t *frequency[WORDS_LIMIT];
     int words_inserted;
 } word_count_t;
+
+frequency_t *Frequency_new();
+void Frequency_delete(frequency_t *frequency);
 
 word_count_t *WordCount_new();
 void WordCount_delete(word_count_t *word_count);
