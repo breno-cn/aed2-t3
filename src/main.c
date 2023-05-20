@@ -2,20 +2,20 @@
 
 #include "music/music.h"
 
+#define MUSICS_AMMOUNT 16
+
 int main() {
-    int option;
-    printf("Escolha um arquivo (1 - 16) para carregar os dados da musica: ");
-    scanf("%d", &option);
-    char filepath[32];
-    sprintf(filepath, "./LetrasMusicas/%d.txt", option);
+    char filepath[64];
+    music_t *music_repo[MUSICS_AMMOUNT];
 
-    music_t *music = Music_from_file(filepath);
+    for (int i = 1; i <= MUSICS_AMMOUNT; i++) {
+        sprintf(filepath, "./LetrasMusicas/%d.txt", i);
+        music_repo[i] = Music_from_file(filepath);
+    }
 
-    printf("%s\n", music->title);
-    printf("%s\n", music->writer);
-    printf("%s\n", music->lyrics);
-
-    Music_delete(music);
+    for (int i = 0; i < MUSICS_AMMOUNT; i++) {
+        Music_delete(music_repo[i]);
+    }
 
     return 0;
 }
