@@ -117,6 +117,64 @@ int bstree_insert(BSTree *root, char *word) {
  * TODO: Create remove functions
  */
 
+struct node* bstree_remove_current(struct node *current) {
+    struct node *node_1, *node_2;
+
+    if (current->left == NULL) {
+        node_2 = current->right;
+        free(current);
+        return node_2;
+    }
+
+    node_1 = current;
+    node_2 = current->left;
+    while (node_2->right != NULL) {
+        node_1 = node_2;
+        node_2 = node_2->right;
+    }
+
+    if (node_1 != current) {
+        node_1->right = node_2->left;
+        node_2->left = current->left;
+    }
+    node_2->right = current->right;
+    free(current);
+
+    return node_2;
+}
+
+int bstree_delete(BSTree *root, char *word) {
+    if (root == NULL) {
+        return 0;
+    }
+    struct node *previous;
+    struct node *current = *root;
+    while (current != NULL) {
+        if (strcmp(word, current->word) == 0) {
+            if (current == *root) {
+                *root = bstree_remove_current(current);
+            } else {
+                if (previous->right == current) {
+                    previous->right = bstree_remove_current(current);
+                } else {
+                    previous->left = bstree_remove_current(current);
+                }
+
+                return 1;
+            }
+        }
+
+        previous = current;
+        if (strcmp(word, current->word) > 0) {
+            current = current->right;
+        } else {
+            current = current->left;
+        }
+    }
+
+    return 0;
+}
+
 int bstree_search(BSTree *root, char *word) {
     if (root == NULL) {
         return 0;
