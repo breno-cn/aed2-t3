@@ -23,12 +23,12 @@ int main() {
     ordered_vector_t *vector = OrderedVector_new();
     // printf("---------------------------------\n");
     for (int i = 0; i < word_count->words_inserted; i++) {
-        printf("%s\n", word_count->frequency[i]->word);
+        // printf("%s\n", word_count->frequency[i]->word);
         OrderedVector_insert(vector, word_count->frequency[i]);
     }
-    // printf("---------------------------------\n");
-    // OrderedVector_print(vector);
-    // printf("ok\n");
+    printf("---------------------------------\n");
+    OrderedVector_print(vector);
+    printf("ok\n");
 
     for (int i = 0; i < MUSICS_AMMOUNT; i++) {
         Music_delete(music_repo[i]);

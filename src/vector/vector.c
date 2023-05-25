@@ -30,7 +30,7 @@ void OrderedVector_insert(ordered_vector_t *vector, frequency_t *freq) {
     }
 
     int i;
-    for (i = 0; i < vector->words_inserted - 1; i++) {
+    for (i = 0; i < vector->words_inserted; i++) {
         // Encontrou a posição a ser inserida, mover todos uma casa
         // pra frente e inserir
         if (strcmp(freq->word, vector->words[i]->word) <= 0) {
@@ -50,10 +50,10 @@ void OrderedVector_insert(ordered_vector_t *vector, frequency_t *freq) {
 }
 
 void OrderedVector_print(ordered_vector_t *vector) {
-    printf("%d\n", vector->words_inserted);
+    // printf("%d\n", vector->words_inserted);
 
     for (int i = 0; i < vector->words_inserted; i++) {
-        printf("%p\n", vector->words[i]);
+        // printf("%p\n", vector->words[i]);
 
         char *word = vector->words[i]->word;
         int frequency = vector->words[i]->count;
