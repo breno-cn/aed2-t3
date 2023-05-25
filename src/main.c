@@ -30,6 +30,10 @@ int main() {
     OrderedVector_print(vector);
     printf("ok\n");
 
+    printf("%p\n", OrderedVector_find(vector, "vida"));
+    printf("%p\n", OrderedVector_find(vector, "volta"));
+    printf("%p\n", OrderedVector_find(vector, "fsdff"));
+
     for (int i = 0; i < MUSICS_AMMOUNT; i++) {
         Music_delete(music_repo[i]);
     }

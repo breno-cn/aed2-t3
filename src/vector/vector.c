@@ -61,3 +61,14 @@ void OrderedVector_print(ordered_vector_t *vector) {
         printf("%s -> %d\n", word, frequency);
     }
 }
+
+frequency_t *OrderedVector_find(ordered_vector_t *vector, char *word) {
+    for (int i = 0; i < vector->words_inserted; i++) {
+        int compare = strcmp(word, vector->words[i]->word);
+
+        if (compare == 0)
+            return vector->words[i];
+    }
+
+    return NULL;
+}
