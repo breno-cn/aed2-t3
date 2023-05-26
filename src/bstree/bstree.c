@@ -13,7 +13,7 @@ BSTree *bstree_new() {
 
 int node_free(struct node *node) {
     if (node == NULL)
-        return 0;
+        return -1;
 
     node_free(node->left);
     node_free(node->right);
@@ -25,7 +25,7 @@ int node_free(struct node *node) {
 
 int bstree_free(BSTree *root) {
     if (root == NULL)
-        return 0;
+        return -1;
 
     node_free(*root);
     free(root);
@@ -34,11 +34,11 @@ int bstree_free(BSTree *root) {
 
 int bstree_is_empty(BSTree *root) {
     if (root == NULL)
-        return 1;
+        return 0;
     if (*root == NULL)
-        return 1;
+        return 0;
 
-    return 0;
+    return -1;
 }
 
 int bstree_node_count(BSTree *root) {
@@ -55,9 +55,9 @@ int bstree_node_count(BSTree *root) {
 
 int bstree_height(BSTree *root) {
     if (root == NULL)
-        return 0;
+        return -1;
     if (*root == NULL)
-        return 0;
+        return -1;
 
     int left_height = bstree_height(&((*root)->left));
     int right_height = bstree_height(&((*root)->right));
@@ -70,40 +70,49 @@ int bstree_height(BSTree *root) {
 
 }
 
-int bstree_insert(BSTree *root, char *word) {
+int bstree_insert(BSTree *root, frequency_t *freq) {
     if (root == NULL) {
-        return 0;
+        return -1;
     }
     struct node *new;
-    new = (struct node*) malloc(sizeof(struct node));
+    new = (struct node *) malloc(sizeof(struct node));
+    new->frequency = (struct frequency_t *) malloc(sizeof(struct frequency_t));
+
     if (new == NULL)
         return -1;
 
-    strcpy(new->word, word);
+    if (new->frequency == NULL)
+        return -1;
+
+    new->frequency->count = freq->count;
+    strcpy(new->frequency->word, freq->word);
     new->left = NULL;
     new->right = NULL;
 
     if (*root == NULL) {
-        *root = new;
+        *root = new; // Arvore vazia
     } else {
         struct node *current = *root;
         struct node *previous = NULL;
+        int node = -1;
         while (current != NULL) {
+            node++;
             previous = current;
 
-            if (strcmp(word, current->word) == 0) {
+            // Caso já exista
+            if (strcmp(freq->word, current->frequency->word) == 0) {
                 free(new);
                 return 0;
             }
 
-            if (strcmp(word, current->word) > 0) {
+            if (strcmp(freq->word, current->frequency->word) > 0) {
                 current = current->right;
             } else {
                 current = current->left;
             }
         }
 
-        if (strcmp(word, previous->word) > 0) {
+        if (strcmp(freq->word, previous->frequency->word) > 0) {
             previous->right = new;
         } else {
             previous->left = new;
@@ -112,10 +121,6 @@ int bstree_insert(BSTree *root, char *word) {
 
     return 0;
 }
-
-/*
- * TODO: Create remove functions
- */
 
 struct node* bstree_remove_current(struct node *current) {
     struct node *node_1, *node_2;
@@ -145,12 +150,12 @@ struct node* bstree_remove_current(struct node *current) {
 
 int bstree_delete(BSTree *root, char *word) {
     if (root == NULL) {
-        return 0;
+        return -1;
     }
     struct node *previous;
     struct node *current = *root;
     while (current != NULL) {
-        if (strcmp(word, current->word) == 0) {
+        if (strcmp(word, current->frequency->word) == 0) {
             if (current == *root) {
                 *root = bstree_remove_current(current);
             } else {
@@ -160,12 +165,12 @@ int bstree_delete(BSTree *root, char *word) {
                     previous->left = bstree_remove_current(current);
                 }
 
-                return 1;
+                return 0;
             }
         }
 
         previous = current;
-        if (strcmp(word, current->word) > 0) {
+        if (strcmp(word, current->frequency->word) > 0) {
             current = current->right;
         } else {
             current = current->left;
@@ -177,23 +182,23 @@ int bstree_delete(BSTree *root, char *word) {
 
 int bstree_search(BSTree *root, char *word) {
     if (root == NULL) {
-        return 0;
+        return -1;
     }
 
     struct node *current = *root;
     while (current != NULL) {
-        if (strcmp(word, current->word) == 0) {
-            return 1;
+        if (strcmp(word, current->frequency->word) == 0) {
+            return 0;
         }
 
-        if (strcmp(word, current->word) > 0) {
+        if (strcmp(word, current->frequency->word) > 0) {
             current = current->right;
         } else {
             current = current->left;
         }
     }
 
-    return 0;
+    return -1;
 }
 
 void bstree_print_preorder(BSTree *root) {
@@ -201,7 +206,7 @@ void bstree_print_preorder(BSTree *root) {
         return;
 
     if (*root != NULL) {
-        printf("%s\n", (*root)->word);
+        printf("%s\n", (*root)->frequency->word);
         bstree_print_preorder(&((*root)->left));
         bstree_print_preorder(&((*root)->right));
     }
@@ -214,7 +219,7 @@ void bstree_print_inorder(BSTree *root) {
 
     if (*root != NULL) {
         bstree_print_inorder(&((*root)->left));
-        printf("%s\n", (*root)->word);
+        printf("%s\n", (*root)->frequency->word);
         bstree_print_inorder(&((*root)->right));
     }
 }
@@ -227,6 +232,6 @@ void bstree_print_postorder(BSTree *root) {
     if (*root != NULL) {
         bstree_print_inorder(&((*root)->left));
         bstree_print_inorder(&((*root)->right));
-        printf("%s\n", (*root)->word);
+        printf("%s\n", (*root)->frequency->word);
     }
 }

@@ -1,7 +1,8 @@
 #include "../music/word_count.h"
 
 struct node {
-    char word[WORD_SIZE];
+    struct frequency_t *frequency;
+    // char *word;
     struct node *left;
     struct node *right;
 };
@@ -13,7 +14,7 @@ int bstree_free(BSTree *root);
 int bstree_is_empty(BSTree *root);
 int bstree_node_count(BSTree *root);
 int bstree_height(BSTree *root);
-int bstree_insert(BSTree *root, char *word);
+int bstree_insert(BSTree *root, frequency_t *freq);
 int bstree_search(BSTree *root, char *word);
 int bstree_delete(BSTree *root, char *word);
 void bstree_print_preorder(BSTree *root);
