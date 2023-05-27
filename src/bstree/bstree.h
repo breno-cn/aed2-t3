@@ -1,13 +1,13 @@
 #include "../music/word_count.h"
 
-struct node {
+struct bst_node {
     struct frequency_t *frequency;
     // char *word;
-    struct node *left;
-    struct node *right;
+    struct bst_node *left;
+    struct bst_node *right;
 };
 
-typedef struct node *BSTree;
+typedef struct bst_node *BSTree;
 
 BSTree *bstree_new();
 int bstree_free(BSTree *root);
