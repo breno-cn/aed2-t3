@@ -10,7 +10,7 @@ frequency_t *Frequency_new() {
     if (!frequency)
         return NULL;
 
-    frequency->count = 0;
+    frequency->total_count = 0;
     return frequency;
 }
 
@@ -26,11 +26,7 @@ word_count_t *WordCount_new() {
     if (!word_count)
         return NULL;
 
-    for (int i = 0; i < WORDS_LIMIT; i++)
-        word_count->frequency[i] = Frequency_new();
-
     word_count->words_inserted = 0;
-
     return word_count;
 }
 
@@ -38,17 +34,14 @@ void WordCount_delete(word_count_t *word_count) {
     if (!word_count)
         return;
 
-    for (int i = 0; i < WORDS_LIMIT; i++)
-        Frequency_delete(word_count->frequency[i]);
-
     free(word_count);
 }
 
-void WordCount_insert_word(word_count_t *word_count, char *word) {
+void WordCount_insert_word(word_count_t *word_count, char *word, int music_index) {
     // primeira palavra
     if (word_count->words_inserted == 0) {
-        strcpy(word_count->frequency[0]->word, word);
-        word_count->frequency[0]->count = 1;
+        strcpy(word_count->words[0], word);
+        word_count->frequencies[0][music_index] = 1;
         word_count->words_inserted = 1;
 
         return;
@@ -57,15 +50,15 @@ void WordCount_insert_word(word_count_t *word_count, char *word) {
     int i;
     for (i = 0; i < word_count->words_inserted; i++) {
         // A palavra já foi inserida
-        if (strcmp(word_count->frequency[i]->word, word) == 0) {
-            word_count->frequency[i]->count += 1;
+        if (strcmp(word_count->words[i], word) == 0) {
+            word_count->frequencies[i][music_index] += 1;
             return;
         }
     }
 
     // Chegou ao final, inserir palavra nova
-    strcpy(word_count->frequency[i]->word, word);
-    word_count->frequency[i]->count = 1;
+    strcpy(word_count->words[i], word);
+    word_count->frequencies[i][music_index] += 1;
     word_count->words_inserted += 1;
 }
 
@@ -81,7 +74,7 @@ void WordCount_insert_music(word_count_t *word_count, music_t *music) {
             // printf("%s\n", word);
 
             str_lowercase(word);
-            WordCount_insert_word(word_count, word);
+            WordCount_insert_word(word_count, word, music->index);
         }
 
         word = strtok(NULL , " ");
@@ -90,9 +83,10 @@ void WordCount_insert_music(word_count_t *word_count, music_t *music) {
 
 void WordCount_print(word_count_t *word_count) {
     for (int i = 0; i < word_count->words_inserted; i++) {
-        char *word = word_count->frequency[i]->word;
-        int count = word_count->frequency[i]->count;
+        char *word = word_count->words[i];
+        // int count = word_count->frequency[i]->total_count;
 
-        printf("%s -> %d\n", word, count);
+        // printf("%s -> %d\n", word, count);
+        printf("%s\n", word);
     }
 }

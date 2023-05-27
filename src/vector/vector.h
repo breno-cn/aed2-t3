@@ -14,3 +14,5 @@ void OrderedVector_delete(ordered_vector_t *vector);
 void OrderedVector_insert(ordered_vector_t *vector, frequency_t *freq);
 void OrderedVector_print(ordered_vector_t *vector);
 frequency_t *OrderedVector_find(ordered_vector_t *vector, char *word);
+
+void OrderedVector_insert_music(ordered_vector_t *vector, music_t *music);

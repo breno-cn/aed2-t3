@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "vector.h"
+#include "../utils/utils.h"
 
 ordered_vector_t *OrderedVector_new() {
     ordered_vector_t *vector = malloc(sizeof(ordered_vector_t));
@@ -56,7 +57,7 @@ void OrderedVector_print(ordered_vector_t *vector) {
         // printf("%p\n", vector->words[i]);
 
         char *word = vector->words[i]->word;
-        int frequency = vector->words[i]->count;
+        int frequency = vector->words[i]->total_count;
 
         printf("%s -> %d\n", word, frequency);
     }
@@ -81,4 +82,21 @@ frequency_t *OrderedVector_find(ordered_vector_t *vector, char *word) {
     }
 
     return NULL;
+}
+
+void OrderedVector_insert_music(ordered_vector_t *vector, music_t *music) {
+    char *word = strtok(music->lyrics, " ");
+
+    while (1) {
+        if (word == NULL)
+            break;
+
+        str_clean(word);
+        if (strlen(word) > 3) {
+            str_lowercase(word);
+            OrderedVector_insert(vector, word);
+        }
+
+        word = strtok(NULL, " ");
+    }
 }
