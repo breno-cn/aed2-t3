@@ -5,12 +5,15 @@
 
 #include "vector/vector.h"
 
+#include "words_repo/word_repository.h"
+
 int main() {
     music_t *music_repo[MUSICS_AMMOUNT];
     for (int i = 0; i < MUSICS_AMMOUNT; i++)
         music_repo[i] = NULL;
 
     word_count_t *word_count = WordCount_new();
+    word_repository_t *repo = WordRepository_new();
 
     while (1) {
         printf("Digite um numero de 1 a %d para escolher uma musica, ou 0 para encerrar o programa: ", MUSICS_AMMOUNT);
@@ -32,7 +35,8 @@ int main() {
             char filepath[64];
             sprintf(filepath, "./LetrasMusicas/%d.txt", option);
             music_repo[option - 1] = Music_from_file(filepath, option - 1);
-            WordCount_insert_music(word_count, music_repo[option - 1]);
+            WordRepository_insert_music(repo, music_repo[option - 1]);
+            // WordCount_insert_music(word_count, music_repo[option - 1]);
         }
     }
 

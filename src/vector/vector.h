@@ -9,10 +9,12 @@ typedef struct ordered_vector_t {
     int words_inserted;
 } ordered_vector_t;
 
-ordered_vector_t *OrderedVector_new();
-void OrderedVector_delete(ordered_vector_t *vector);
-void OrderedVector_insert(ordered_vector_t *vector, struct frequency_t *freq);
-void OrderedVector_print(ordered_vector_t *vector);
-struct frequency_t *OrderedVector_find(ordered_vector_t *vector, char *word);
+struct ordered_vector_t *OrderedVector_new();
+void OrderedVector_delete(struct ordered_vector_t *vector);
+void OrderedVector_insert(struct ordered_vector_t *vector, struct frequency_t *freq);
+void OrderedVector_print(struct ordered_vector_t *vector);
+struct frequency_t *OrderedVector_find(struct ordered_vector_t *vector, char *word);
 
-void OrderedVector_insert_music(ordered_vector_t *vector, music_t *music);
+void OrderedVector_insert_music(struct ordered_vector_t *vector, struct music_t *music);
+void OrderedVector_insert_frequency(struct ordered_vector_t *vector, struct frequency_t *freq);
+void OrderedVector_merge(struct ordered_vector_t *vector, struct word_count_t *word_count);

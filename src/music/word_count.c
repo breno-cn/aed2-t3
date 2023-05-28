@@ -42,7 +42,7 @@ void WordCount_delete(word_count_t *word_count) {
     free(word_count);
 }
 
-void WordCount_insert_word(word_count_t *word_count, char *word, music_t *music) {
+void WordCount_insert_word(struct word_count_t *word_count, char *word, music_t *music) {
     if (word_count->words_inserted == 0) {
         frequency_t *freq = Frequency_new(word, 1, music);
         word_count->words[0] = freq;
@@ -63,7 +63,7 @@ void WordCount_insert_word(word_count_t *word_count, char *word, music_t *music)
     word_count->words_inserted += 1;
 }
 
-void WordCount_insert_music(word_count_t *word_count, music_t *music) {
+word_count_t *WordCount_insert_music(word_count_t *word_count, music_t *music) {
     word_count_t *new_count = WordCount_new();
     char *word = strtok(music->lyrics, " ");
 
@@ -81,6 +81,7 @@ void WordCount_insert_music(word_count_t *word_count, music_t *music) {
     }
 
     WordCount_merge(word_count, new_count);
+    return new_count;
 }
 
 void WordCount_print(word_count_t *word_count) {
@@ -108,7 +109,6 @@ void WordCount_insert_frequency(word_count_t *word_count, frequency_t *freq) {
     for (i = 0; i < word_count->words_inserted; i++) {
         if (strcmp(word_count->words[i]->word, freq->word) == 0) {
             word_count->words[i]->count += freq->count;
-            word_count->words_inserted += 1;
 
             return;
         }
