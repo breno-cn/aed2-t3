@@ -13,11 +13,8 @@ typedef struct frequency_t {
 } frequency_t;
 
 typedef struct word_count_t {
-    char words[WORDS_LIMIT][WORD_SIZE];
-    int frequencies[WORDS_LIMIT][MUSICS_AMMOUNT];
+    frequency_t *words[WORDS_LIMIT];
     int words_inserted;
-
-    struct ordered_vector_t *vector;
 } word_count_t;
 
 frequency_t *Frequency_new();
@@ -25,6 +22,9 @@ void Frequency_delete(frequency_t *frequency);
 
 word_count_t *WordCount_new();
 void WordCount_delete(word_count_t *word_count);
-int WordCount_insert_word(word_count_t *word_count, char *word, int music_index);
+void WordCount_insert_word(word_count_t *word_count, char *word, music_t *music);
 void WordCount_insert_music(word_count_t *word_count, music_t *music);
 void WordCount_print(word_count_t *word_count);
+
+void WordCount_insert_frequency(word_count_t *word_count, frequency_t *freq);
+void WordCount_merge(word_count_t *to, word_count_t *from);
