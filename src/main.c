@@ -2,41 +2,46 @@
 
 #include "music/music.h"
 #include "music/word_count.h"
-#include "bstree/bstree.h"
 
-#define MUSICS_AMMOUNT 16
+#include "vector/vector.h"
+
+#include "words_repo/word_repository.h"
 
 int main() {
-    char filepath[64];
     music_t *music_repo[MUSICS_AMMOUNT];
-
-    for (int i = 0; i < MUSICS_AMMOUNT; i++) {
-        sprintf(filepath, "./LetrasMusicas/%d.txt", i + 1);
-        music_repo[i] = Music_from_file(filepath);
-    }
+    for (int i = 0; i < MUSICS_AMMOUNT; i++)
+        music_repo[i] = NULL;
 
     word_count_t *word_count = WordCount_new();
-    // WordCount_insert_music(word_count, music_repo[11]);
-    for (int i = 0; i < MUSICS_AMMOUNT; i++) {
-        WordCount_insert_music(word_count, music_repo[i]);
-    }
+    word_repository_t *repo = WordRepository_new();
 
-    BSTree *bst = bstree_new();
+    while (1) {
+        printf("Digite um numero de 1 a %d para escolher uma musica, ou 0 para encerrar o programa: ", MUSICS_AMMOUNT);
+        int option;
+        scanf("%d", &option);
 
-    for (int i = 0; i < word_count->words_inserted; i++) {
-        int status = bstree_insert(bst, word_count->frequency[i]);
-        if (status != 0) {
-            printf("Falha ao inserir a palavra %s\n", word_count->frequency[i]->word);
+        if (option < 0 || option > MUSICS_AMMOUNT) {
+            printf("Opcao invalida!\n");
+            continue;
+        } else if (option == 0) {
+            break;
+        } else {
+            printf("Inserindo musica numero %d no repositorio...\n", option);
+            if (music_repo[option]) {
+                printf("Essa musica ja foi inserida previamente...\n");
+                continue;
+            }
+
+            char filepath[64];
+            sprintf(filepath, "./LetrasMusicas/%d.txt", option);
+            music_repo[option - 1] = Music_from_file(filepath, option - 1);
+            WordRepository_insert_music(repo, music_repo[option - 1]);
+            // WordCount_insert_music(word_count, music_repo[option - 1]);
         }
     }
-    printf("Músicas adicionadas.\n");
-    printf("Quantidade de palavras: %d\n", bstree_node_count(bst));
 
-    for (int i = 0; i < MUSICS_AMMOUNT; i++) {
-        Music_delete(music_repo[i]);
-    }
+    WordCount_print(word_count);
     WordCount_delete(word_count);
-    bstree_free(bst);
 
     return 0;
 }
