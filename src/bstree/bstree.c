@@ -76,7 +76,7 @@ int bstree_insert(BSTree *root, frequency_t *freq) {
     }
     struct bst_node *new;
     new = (struct bst_node *) malloc(sizeof(struct bst_node));
-    new->frequency = (struct frequency_t *) malloc(sizeof(struct frequency_t));
+    new->frequency = freq;
 
     if (new == NULL)
         return -1;
@@ -84,8 +84,8 @@ int bstree_insert(BSTree *root, frequency_t *freq) {
     if (new->frequency == NULL)
         return -1;
 
-    new->frequency->count = freq->count;
-    strcpy(new->frequency->word, freq->word);
+    // new->frequency->count = freq->count;
+    // strcpy(new->frequency->word, freq->word);
     new->left = NULL;
     new->right = NULL;
 
@@ -183,15 +183,15 @@ int bstree_delete(BSTree *root, char *word) {
     return 0;
 }
 
-int bstree_search(BSTree *root, char *word) {
+frequency_t *bstree_search(BSTree *root, char *word) {
     if (root == NULL) {
-        return -1;
+        return NULL;
     }
 
     struct bst_node *current = *root;
     while (current != NULL) {
         if (strcmp(word, current->frequency->word) == 0) {
-            return 0;
+            return current->frequency;
         }
 
         if (strcmp(word, current->frequency->word) > 0) {
@@ -201,7 +201,7 @@ int bstree_search(BSTree *root, char *word) {
         }
     }
 
-    return -1;
+    return NULL;
 }
 
 void bstree_print_preorder(BSTree *root) {

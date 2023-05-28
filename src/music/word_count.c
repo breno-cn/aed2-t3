@@ -47,6 +47,7 @@ void WordCount_insert_word(struct word_count_t *word_count, char *word, music_t 
         frequency_t *freq = Frequency_new(word, 1, music);
         word_count->words[0] = freq;
         word_count->words_inserted += 1;
+        word_count->words[0]->music = music;
         return;
     }
 
@@ -54,6 +55,7 @@ void WordCount_insert_word(struct word_count_t *word_count, char *word, music_t 
     for (i = 0; i < word_count->words_inserted; i++) {
         if (strcmp(word_count->words[i]->word, word) == 0) {
             word_count->words[i]->count += 1;
+            word_count->words[i]->music = music;
             return;
         }
     }
@@ -61,6 +63,7 @@ void WordCount_insert_word(struct word_count_t *word_count, char *word, music_t 
     frequency_t *freq = Frequency_new(word, 1, music);
     word_count->words[i] = freq;
     word_count->words_inserted += 1;
+    word_count->words[i]->music = music;
 }
 
 word_count_t *WordCount_insert_music(word_count_t *word_count, music_t *music) {

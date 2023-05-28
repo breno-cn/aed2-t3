@@ -17,7 +17,7 @@ int bstree_is_empty(BSTree *root);
 int bstree_node_count(BSTree *root);
 int bstree_height(BSTree *root);
 int bstree_insert(BSTree *root, frequency_t *freq);
-int bstree_search(BSTree *root, char *word);
+frequency_t *bstree_search(BSTree *root, char *word);
 int bstree_delete(BSTree *root, char *word);
 void bstree_print_preorder(BSTree *root);
 void bstree_print_inorder(BSTree *root);

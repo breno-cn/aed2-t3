@@ -14,3 +14,4 @@ typedef struct word_repository_t {
 
 struct word_repository_t *WordRepository_new();
 void WordRepository_insert_music(struct word_repository_t *repo, music_t *music);
+frequency_t *WordRepository_search(struct word_repository_t *repo, char *word);

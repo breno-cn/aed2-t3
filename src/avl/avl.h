@@ -14,7 +14,7 @@ AVLTree *avltree_new();
 int avltree_is_empty(AVLTree *root);
 int avltree_node_count(AVLTree *root);
 int avltree_height(AVLTree *root);
-int avltree_search(AVLTree *root, char *word);
+frequency_t *avltree_search(AVLTree *root, char *word);
 int avltree_delete(AVLTree *root, char *word);
 int avltree_insert(AVLTree *root, struct frequency_t *freq);
 void avltree_print_inorder(AVLTree *raiz);

@@ -93,14 +93,14 @@ void avltree_print_inorder(AVLTree *raiz) {
     }
 }
 
-int avltree_search(AVLTree *root, char *word) {
+frequency_t *avltree_search(AVLTree *root, char *word) {
     if (root == NULL)
-        return -1;
+        return NULL;
 
     struct avl_node* current = *root;
     while (current != NULL){
         if (strcmp(word, current->frequency->word) == 0){
-            return 0;
+            return current->frequency;
         }
         if (strcmp(word, current->frequency->word) > 0) {
             current = current->right;
@@ -109,7 +109,7 @@ int avltree_search(AVLTree *root, char *word) {
         }
     }
 
-    return -1;
+    return NULL;
 }
 
 /* Rotacoes */
@@ -166,12 +166,13 @@ int avltree_insert(AVLTree *root, struct frequency_t *freq) {
         if (new == NULL)
             return -1;
 
-        new->frequency = (struct frequency_t *) malloc(sizeof(struct frequency_t));
+        // new->frequency = (struct frequency_t *) malloc(sizeof(struct frequency_t));
+        new->frequency = freq;
         if (new->frequency == NULL)
             return -1;
 
-        strcpy(new->frequency->word, freq->word);
-        new->frequency->count = freq->count;
+        // strcpy(new->frequency->word, freq->word);
+        // new->frequency->count = freq->count;
         new->height = 0;
         new->left = NULL;
         new->right = NULL;
