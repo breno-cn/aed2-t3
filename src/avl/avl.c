@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// DUVIDA: AO REMOVER A FREQUENCIA DA PALAVRA TAMBËM DECREMENTA?
-
 /* Altere o valor para 1 para ativar o modo DEBUG */
 #define DEBUG 0
 
