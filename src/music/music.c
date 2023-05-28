@@ -5,7 +5,7 @@
 
 #define BUFFER_SIZE 2048
 
-music_t *Music_from_file(char *filepath) {
+music_t *Music_from_file(char *filepath, int music_index) {
     music_t *music = malloc(sizeof(music_t));
     if (!music)
         return NULL;
@@ -15,6 +15,7 @@ music_t *Music_from_file(char *filepath) {
     fgets(music->title, TITLE_SIZE, file);
     fgets(music->writer, WRITER_SIZE, file);
     fread(music->lyrics, sizeof(char), LYRICS_SIZE, file);
+    music->index = music_index;
 
     fclose(file);
 

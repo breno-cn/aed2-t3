@@ -34,7 +34,7 @@ void OrderedVector_insert(ordered_vector_t *vector, frequency_t *freq) {
     for (i = 0; i < vector->words_inserted; i++) {
         // Encontrou a posição a ser inserida, mover todos uma casa
         // pra frente e inserir
-        if (strcmp(freq->word, vector->words[i]->word) <= 0) {
+        if (strcmp(freq->word, vector->words[i]->word) <= 0 && vector->words[i]->count < freq->count) {
             for (int j = vector->words_inserted; j > i; j--) {
                 vector->words[j] = vector->words[j - 1];
             }
@@ -57,7 +57,7 @@ void OrderedVector_print(ordered_vector_t *vector) {
         // printf("%p\n", vector->words[i]);
 
         char *word = vector->words[i]->word;
-        int frequency = vector->words[i]->total_count;
+        int frequency = vector->words[i]->count;
 
         printf("%s -> %d\n", word, frequency);
     }
@@ -94,7 +94,7 @@ void OrderedVector_insert_music(ordered_vector_t *vector, music_t *music) {
         str_clean(word);
         if (strlen(word) > 3) {
             str_lowercase(word);
-            OrderedVector_insert(vector, word);
+            // OrderedVector_insert(vector, word);
         }
 
         word = strtok(NULL, " ");

@@ -13,5 +13,5 @@ typedef struct music_t {
     int index;
 } music_t;
 
-music_t *Music_from_file(char *filepath);
+music_t *Music_from_file(char *filepath, int music_index);
 void Music_delete(music_t *music);

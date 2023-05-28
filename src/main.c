@@ -31,7 +31,7 @@ int main() {
 
             char filepath[64];
             sprintf(filepath, "./LetrasMusicas/%d.txt", option);
-            music_repo[option - 1] = Music_from_file(filepath);
+            music_repo[option - 1] = Music_from_file(filepath, option - 1);
             WordCount_insert_music(word_count, music_repo[option - 1]);
         }
     }
