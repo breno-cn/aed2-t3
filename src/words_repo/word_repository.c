@@ -31,5 +31,12 @@ void WordRepository_insert_music(word_repository_t *repo, music_t *music) {
     avl_merge(repo->avl, new_count);
 
     WordCount_print(repo->word_count);
+
     OrderedVector_print(repo->vector);
+    
+    int bstree_count = bstree_node_count(repo->bstree);
+    printf("%d\n", bstree_count);
+
+    int avl_count = avltree_node_count(repo->avl);
+    printf("%d\n", avl_count);
 }
