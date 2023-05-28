@@ -271,7 +271,6 @@ int avltree_delete(AVLTree *root, char *word) {
         } else {
             // dois filhos
             struct avl_node *temp = search_min((*root)->right);
-            // strcpy(temp->frequency->word, (*root)->frequency->word);
             strcpy((*root)->frequency->word, temp->frequency->word);
             avltree_delete(&(*root)->right, (*root)->frequency->word);
 

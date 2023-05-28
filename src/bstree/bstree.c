@@ -84,8 +84,6 @@ int bstree_insert(BSTree *root, frequency_t *freq) {
     if (new->frequency == NULL)
         return -1;
 
-    // new->frequency->count = freq->count;
-    // strcpy(new->frequency->word, freq->word);
     new->left = NULL;
     new->right = NULL;
 

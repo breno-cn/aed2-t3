@@ -40,10 +40,8 @@ int main() {
                 sprintf(filepath, "./LetrasMusicas/%d.txt", option);
                 music_repo[option - 1] = Music_from_file(filepath, option - 1);
                 WordRepository_insert_music(repo, music_repo[option - 1]);
-                // WordCount_insert_music(word_count, music_repo[option - 1]);
             }
         } else if (option == 2) {
-            // pesquisas...
             char word[WORD_SIZE];
             printf("Digite a palavra: ");
             scanf("%s", word);
@@ -63,8 +61,6 @@ int main() {
         }
     }
 
-    WordCount_print(word_count);
     WordCount_delete(word_count);
-
     return 0;
 }
