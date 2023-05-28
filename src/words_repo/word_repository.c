@@ -15,6 +15,7 @@ word_repository_t *WordRepository_new() {
     repo->vector = OrderedVector_new();
     repo->bstree = bstree_new();
     repo->avl = avltree_new();
+    repo->avlfreq = avlfreqtree_new();
 
     return repo;
 }
@@ -43,6 +44,9 @@ void WordRepository_insert_music(word_repository_t *repo, music_t *music) {
     end = clock();
     time_spent = end - start;
     printf("AVL: %f\n", (float) time_spent / CLOCKS_PER_SEC);
+
+    // na AVL de freqeuncias
+    avlfreq_merge(repo->avlfreq, new_count);
 }
 
 frequency_t *WordRepository_search(struct word_repository_t *repo, char *word) {
@@ -69,4 +73,8 @@ frequency_t *WordRepository_search(struct word_repository_t *repo, char *word) {
     printf("AVL: %f\n", (float) time_spent / CLOCKS_PER_SEC);
 
     return found;
+}
+
+frequency_t **WordRepository_search_by_freq(struct word_repository_t *repo, int freq, int *ammount) {
+    return avlfreqtree_search(repo->avlfreq, freq, ammount);
 }

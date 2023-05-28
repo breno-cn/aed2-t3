@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+// DUVIDA: AO REMOVER A FREQUENCIA DA PALAVRA TAMBËM DECREMENTA?
+
 /* Altere o valor para 1 para ativar o modo DEBUG */
 #define DEBUG 0
 
@@ -164,13 +166,8 @@ int avltree_insert(AVLTree *root, struct frequency_t *freq) {
         if (new == NULL)
             return -1;
 
-        // new->frequency = (struct frequency_t *) malloc(sizeof(struct frequency_t));
         new->frequency = freq;
-        if (new->frequency == NULL)
-            return -1;
 
-        // strcpy(new->frequency->word, freq->word);
-        // new->frequency->count = freq->count;
         new->height = 0;
         new->left = NULL;
         new->right = NULL;
@@ -269,6 +266,7 @@ int avltree_delete(AVLTree *root, char *word) {
         } else {
             // dois filhos
             struct avl_node *temp = search_min((*root)->right);
+            // strcpy(temp->frequency->word, (*root)->frequency->word);
             strcpy((*root)->frequency->word, temp->frequency->word);
             avltree_delete(&(*root)->right, (*root)->frequency->word);
 

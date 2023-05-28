@@ -17,7 +17,7 @@ int main() {
 
     while (1) {
         int option;
-        printf("Voce deseja inserir os dados de uma musica (1) ou pesquisar uma palavra (2) ou sair do programa (3)? ");
+        printf("Voce deseja inserir os dados de uma musica (1), pesquisar uma palavra (2), pesquisar por frequencia (3) ou sair do programa (4)? ");
         scanf("%d", &option);
 
         if (option == 1) {
@@ -55,6 +55,20 @@ int main() {
                 printf("frequencia: %d\n", found->count);
             }
         } else if (option == 3) {
+            // pesquisa por frequencia
+            int frequency;
+            printf("Digite a frequencia: ");
+            scanf("%d", &frequency);
+
+            int ammount;
+            frequency_t **found = WordRepository_search_by_freq(repo, frequency, &ammount);
+            printf("Foram encontradas %d palavras com essa frequencia...\n", ammount);
+            for (int i = 0; i < ammount; i++) {
+                printf("%s ", found[i]->word);
+            }
+
+            printf("\n");
+        } else if (option == 4) {
             break;
         } else {
             printf("Opcao invalida!\n");
