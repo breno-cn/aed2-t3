@@ -101,6 +101,9 @@ int bstree_insert(BSTree *root, frequency_t *freq) {
 
             // Caso já exista
             if (strcmp(freq->word, current->frequency->word) == 0) {
+                if (current->frequency->count < freq->count) {
+                    current->frequency = freq;
+                }
                 free(new);
                 return 0;
             }
@@ -233,5 +236,11 @@ void bstree_print_postorder(BSTree *root) {
         bstree_print_inorder(&((*root)->left));
         bstree_print_inorder(&((*root)->right));
         printf("%s\n", (*root)->frequency->word);
+    }
+}
+
+void bstree_merge(BSTree *root, struct word_count_t *word_count) {
+    for (int i = 0; i < word_count->words_inserted; i++) {
+        bstree_insert(root, word_count->words[i]);
     }
 }

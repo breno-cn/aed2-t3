@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../music/word_count.h"
 
 struct avl_node {
@@ -17,3 +19,5 @@ int avltree_delete(AVLTree *root, char *word);
 int avltree_insert(AVLTree *root, struct frequency_t *freq);
 void avltree_print_inorder(AVLTree *raiz);
 void avltree_free(AVLTree *root);
+
+void avl_merge(AVLTree *root, word_count_t *word_count);

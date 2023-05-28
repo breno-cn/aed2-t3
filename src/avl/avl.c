@@ -202,7 +202,9 @@ int avltree_insert(AVLTree *root, struct frequency_t *freq) {
                 }
             }
         } else {
-            printf("Valor duplicado!\n");
+            // printf("Valor duplicado!\n");
+            if (current->frequency->count < freq->count)
+                current->frequency = freq;
             return 0;
         }
 
@@ -292,3 +294,8 @@ int avltree_delete(AVLTree *root, char *word) {
     return return_code;
 }
 
+void avl_merge(AVLTree *root, word_count_t *word_count) {
+    for (int i = 0; i < word_count->words_inserted; i++) {
+        avltree_insert(root, word_count->words[i]);
+    }
+}

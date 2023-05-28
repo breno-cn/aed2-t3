@@ -2,10 +2,14 @@
 
 #include "../music/word_count.h"
 #include "../vector/vector.h"
+#include "../bstree/bstree.h"
+#include "../avl/avl.h"
 
 typedef struct word_repository_t {
     word_count_t *word_count;
     ordered_vector_t *vector;
+    struct bst_node **bstree;
+    struct avl_node **avl;
 } word_repository_t;
 
 struct word_repository_t *WordRepository_new();

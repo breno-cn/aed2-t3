@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../music/word_count.h"
 
 struct bst_node {
@@ -20,3 +22,5 @@ int bstree_delete(BSTree *root, char *word);
 void bstree_print_preorder(BSTree *root);
 void bstree_print_inorder(BSTree *root);
 void bstree_print_postorder(BSTree *root);
+
+void bstree_merge(BSTree *root, struct word_count_t *word_count);
