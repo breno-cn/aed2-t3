@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "word_repository.h"
 #include "../bstree/bstree.h"
@@ -21,22 +22,25 @@ word_repository_t *WordRepository_new() {
 void WordRepository_insert_music(word_repository_t *repo, music_t *music) {
     struct word_count_t *new_count = WordCount_insert_music(repo->word_count, music);
 
-    printf("Inserindo no vetor ordenado...\n");
+    clock_t start;
+    clock_t end;
+    clock_t time_spent;
+
+    start = clock();
     OrderedVector_merge(repo->vector, new_count);
+    end = clock();
+    time_spent = end - start;
+    printf("Vetor ordenado: %f\n", (float) time_spent / CLOCKS_PER_SEC);
 
-    printf("Inserindo na arvore de busca binaria...\n");
+    start = clock();
     bstree_merge(repo->bstree, new_count);
+    end = clock();
+    time_spent = end - start;
+    printf("BSTree: %f\n", (float) time_spent / CLOCKS_PER_SEC);
 
-    printf("Inserindo na AVL...\n");
+    start = clock();
     avl_merge(repo->avl, new_count);
-
-    WordCount_print(repo->word_count);
-
-    OrderedVector_print(repo->vector);
-    
-    int bstree_count = bstree_node_count(repo->bstree);
-    printf("%d\n", bstree_count);
-
-    int avl_count = avltree_node_count(repo->avl);
-    printf("%d\n", avl_count);
+    end = clock();
+    time_spent = end - start;
+    printf("AVL: %f\n", (float) time_spent / CLOCKS_PER_SEC);
 }
