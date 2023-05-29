@@ -88,7 +88,7 @@ void avlfreqtree_print_inorder(AVLFreqTree *raiz) {
         return;
     if (*raiz != NULL) {
         avlfreqtree_print_inorder(&((*raiz)->left));
-        printf("No %s: H(%d) fb(%d)\n", (*raiz)->frequency->word, avlfreq_node_height(*raiz), avlfreq_balancefactor(*raiz));
+        printf("No %s: H(%d) fb(%d) %d\n", (*raiz)->frequency->word, avlfreq_node_height(*raiz), avlfreq_balancefactor(*raiz), (*raiz)->frequency->count);
         avlfreqtree_print_inorder(&((*raiz)->right));
     }
 }
@@ -97,29 +97,30 @@ frequency_t **avlfreqtree_search(AVLFreqTree *root, int frequency, int *ammount)
     if (root == NULL)
         return NULL;
 
+    avlfreqtree_print_inorder(root);
+    *ammount = 0;
+
     struct avlfreq_node* current = *root;
     frequency_t **found = malloc(FOUND_SIZE * sizeof(frequency_t *));
-    int found_ammount = 0;
     while (current != NULL){
-        // if (strcmp(word, current->frequency->word) == 0){
-        if (current->frequency->count == frequency) {
-            while (current->frequency->count != frequency) {
-                found[found_ammount] = current->frequency;
-                found_ammount += 1;
+        if (current->frequency->count < frequency) {
+            current = current->right;
+        } else if (current->frequency->count > frequency) {
+            current = current->left;
+        } else {
+            while (1) {
+                if (!current || current->frequency->count != frequency)
+                    break;
+
+                found[*ammount] = current->frequency;
+                *ammount += 1;
                 current = current->left;
             }
+            // return found;
+        }
 
-            *ammount = found_ammount;
-            return found;
-        }
-        if (current->frequency->count > frequency) {
-            current = current->right;
-        } else {
-            current = current->left;
-        }
     }
-
-    return NULL;
+    return found;
 }
 
 /* Rotacoes */
@@ -176,13 +177,10 @@ int avlfreqtree_insert(AVLFreqTree *root, struct frequency_t *freq) {
         if (new == NULL)
             return -1;
 
-        // new->frequency = (struct frequency_t *) malloc(sizeof(struct frequency_t));
         new->frequency = freq;
         if (new->frequency == NULL)
             return -1;
 
-        // strcpy(new->frequency->word, freq->word);
-        // new->frequency->count = freq->count;
         new->height = 0;
         new->left = NULL;
         new->right = NULL;
@@ -191,11 +189,9 @@ int avlfreqtree_insert(AVLFreqTree *root, struct frequency_t *freq) {
     }
 
     struct avlfreq_node *current = *root;
-    // if (strcmp(freq->word, current->frequency->word) < 0) {
     if (freq->count <= current->frequency->count) {
         if ( (return_code = avlfreqtree_insert(&(current->left), freq)) == 1) {
             if (avlfreq_balancefactor(current) >= 2) {
-                // if (strcmp(freq->word, (*root)->left->frequency->word) < 0) {
                 if (freq->count <= (*root)->left->frequency->count) {
                     AVLFreqRotacaoLL(root);
                 } else {
@@ -204,11 +200,9 @@ int avlfreqtree_insert(AVLFreqTree *root, struct frequency_t *freq) {
             }
         }
     } else {
-        // if (strcmp(freq->word, current->frequency->word) > 0) {
         if (freq->count > current->frequency->count) {
             if ( (return_code = avlfreqtree_insert(&(current->right), freq)) == 1) {
                 if (avlfreq_balancefactor(current) >= 2) {
-                    // if (strcmp((*root)->right->frequency->word, freq->word) < 0) {
                     if ((*root)->right->frequency->count < freq->count) {
                         AVLFreqRotacaoRR(root);
                     } else {
@@ -221,11 +215,6 @@ int avlfreqtree_insert(AVLFreqTree *root, struct frequency_t *freq) {
         }
         if (current->frequency->count < freq->count)
             current->frequency = freq;
-        // else {
-        //     // printf("Valor duplicado!\n");
-        //     return 0;
-        // }
-
     }
 
     current->height = avlfreq_max(avlfreq_node_height(current->left), avlfreq_node_height(current->right)) + 1;

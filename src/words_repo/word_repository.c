@@ -55,7 +55,7 @@ frequency_t *WordRepository_search(struct word_repository_t *repo, char *word) {
     clock_t time_spent;
 
     start = clock();
-    OrderedVector_find(repo->vector, word);
+    frequency_t *found = OrderedVector_find(repo->vector, word);
     end = clock();
     time_spent = end - start;
     printf("Vetor ordenado: %f\n", (float) time_spent / CLOCKS_PER_SEC);
@@ -67,7 +67,7 @@ frequency_t *WordRepository_search(struct word_repository_t *repo, char *word) {
     printf("BSTree: %f\n", (float) time_spent / CLOCKS_PER_SEC);
 
     start = clock();
-    frequency_t *found = avltree_search(repo->avl, word);
+    avltree_search(repo->avl, word);
     end = clock();
     time_spent = end - start;
     printf("AVL: %f\n", (float) time_spent / CLOCKS_PER_SEC);
